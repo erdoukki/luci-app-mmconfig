@@ -1,2 +1,2 @@
 # luci-app-mmconfig
-The OpenWrt Luci app configure modem cellular bans via mmcli utility
+The OpenWrt Luci app configure modem cellular bands via mmcli utility
