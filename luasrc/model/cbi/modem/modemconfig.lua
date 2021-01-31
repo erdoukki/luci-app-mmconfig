@@ -24,7 +24,7 @@ wcdma:value("1", "WCDMA2100")
 s.rmempty = true
 
 lte = s:option(DynamicList, "lte_band", translate("4G"),
-translate("Maybe must reconnect cellular interface."))
+translate("Maybe must reconnect cellular interface. If no select all bands, use default band modem config."))
 lte:value("1", "LTE B1 FDD")
 lte:value("3", "LTE B3 FDD")
 lte:value("5", "LTE B5 FDD")

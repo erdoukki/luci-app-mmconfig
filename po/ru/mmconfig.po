@@ -26,7 +26,7 @@ msgid "Choose bands cellular modem"
 msgstr "Выберите частоты сотовой сети"
 
 #: applications/luci-app-mmconfig/luasrc/model/cbi/modem/modemconfig.lua:27
-msgid "Maybe must reconnect cellular interface."
-msgstr "Возможно потребуется перезапустить сотовое соединение."
+msgid "Maybe must reconnect cellular interface. If no select all bands, use default band modem config."
+msgstr "Возможно потребуется перезапустить сотовое соединение. Если не выбрано ни одного диапазона, используется конфигурация модема по умолчанию."
 
 

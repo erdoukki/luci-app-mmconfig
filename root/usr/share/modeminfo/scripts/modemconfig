@@ -4,11 +4,12 @@
 GET_GSM=$(uci -q get modemconfig.@modem[0].gsm_band)
 GET_3G=$(uci -q get modemconfig.@modem[0].3g_band)
 GET_LTE=$(uci -q get modemconfig.@modem[0].lte_band)
+SLOT=$(/usr/bin/mmcli -L | awk '{print $1}' | awk -F [\/] '{print $6}')
 
 BAND2G=""
 BAND3G=""
 BAND4G=""
-
+# Control empty bands
 get_bands(){
 	if [ "$GET_BAND" ]; then
                 continue
@@ -32,7 +33,7 @@ set_2g(){
 	done
 }
 
-# Select 3G bands Quectel modems
+# Select 3G bands
 set_3g(){
 	GET_BAND="$GET_3G"
 	get_bands
@@ -47,7 +48,7 @@ set_3g(){
 	done
 }
 
-# Select 4G bands SimCom and Quectel modems
+# Select 4G bands
 set_4g(){
 	GET_BAND="$GET_LTE"
 	get_bands
@@ -67,11 +68,25 @@ set_4g(){
 	        BAND4G="$BAND|$BAND4G"
 	done
 }
+# Reset to defautls bands
+reset_to_defaults(){
+	DEFBAND=""
+	SUPPORTED_BANDS="$(echo $(mmcli -J -m $SLOT | jsonfilter -e '@["modem"]["generic"]["supported-bands"][*]'))"
+	for g in $SUPPORTED_BANDS; do
+		DEFBAND="$g|$DEFBAND"
+	done
+	DEFBAND=$(echo $DEFBAND | sed 's/.$//')
+}
 
 set_2g
 set_3g
 set_4g
 
 BAND=$(echo ${BAND2G}${BAND3G}${BAND4G} | sed 's/.$//')
-SLOT=$(/usr/bin/mmcli -L | awk '{print $1}' | awk -F [\/] '{print $6}')
-/usr/bin/mmcli -m $SLOT --set-current-bands="$BAND"
+
+if [ "$BAND" ]; then
+	/usr/bin/mmcli -m $SLOT --set-current-bands="$BAND"
+else
+	reset_to_defaults
+	/usr/bin/mmcli -m $SLOT --set-current-bands="$DEFBAND"
+fi
