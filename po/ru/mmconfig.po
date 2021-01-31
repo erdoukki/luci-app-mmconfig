@@ -19,14 +19,14 @@ msgstr "Конфигурация диапазонов модема"
 
 #: applications/luci-app-mmconfig/luasrc/model/cbi/modem/modemconfig.lua:10
 msgid "Configuration 2G/3G/4G modem frequency bands."
-msgstr "Конфигурация 2G/3G/4G частот модема"
+msgstr "Конфигурация 2G/3G/4G частот модема."
 
 #: applications/luci-app-mmconfig/luasrc/model/cbi/modem/modemconfig.lua:12
-msgid "Choise bands cellular modem"
+msgid "Choose bands cellular modem"
 msgstr "Выберите частоты сотовой сети"
 
 #: applications/luci-app-mmconfig/luasrc/model/cbi/modem/modemconfig.lua:27
-msgid "Maybe must reconnect celluar interface."
+msgid "Maybe must reconnect cellular interface."
 msgstr "Возможно потребуется перезапустить сотовое соединение."
 
 

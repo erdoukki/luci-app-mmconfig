@@ -9,7 +9,7 @@ local s
 m = Map("modemconfig", translate("Configure modem bands"),
 	translate("Configuration 2G/3G/4G modem frequency bands."))
 
-s = m:section(TypedSection, "modem", "<p>&nbsp;</p>" .. translate("Choise bands cellular modem"))
+s = m:section(TypedSection, "modem", "<p>&nbsp;</p>" .. translate("Choose bands cellular modem"))
 s.anonymous = true
 
 gsm = s:option(DynamicList, "gsm_band", translate("2G"))
@@ -24,7 +24,7 @@ wcdma:value("1", "WCDMA2100")
 s.rmempty = true
 
 lte = s:option(DynamicList, "lte_band", translate("4G"),
-translate("Maybe must reconnect celluar interface."))
+translate("Maybe must reconnect cellular interface."))
 lte:value("1", "LTE B1 FDD")
 lte:value("3", "LTE B3 FDD")
 lte:value("7", "LTE B7 FDD")
