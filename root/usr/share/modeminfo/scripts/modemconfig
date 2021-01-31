@@ -1,0 +1,77 @@
+#!/bin/sh
+
+
+GET_GSM=$(uci -q get modemconfig.@modem[0].gsm_band)
+GET_3G=$(uci -q get modemconfig.@modem[0].3g_band)
+GET_LTE=$(uci -q get modemconfig.@modem[0].lte_band)
+
+BAND2G=""
+BAND3G=""
+BAND4G=""
+
+get_bands(){
+	if [ "$GET_BAND" ]; then
+                continue
+        else
+                return
+        fi
+
+}
+
+# Select 2G bands
+set_2g(){
+	GET_BAND="$GET_GSM"
+	get_bands
+	for g in $GET_BAND; do
+		case $g in
+			3) BAND="dcs" ;;
+			8) BAND="egsm" ;;
+			*) BAND="" ;;
+		esac
+		BAND2G="$BAND|$BAND2G"
+	done
+}
+
+# Select 3G bands Quectel modems
+set_3g(){
+	GET_BAND="$GET_3G"
+	get_bands
+	for g in $GET_BAND; do
+        	case $g in
+        	        1) BAND="utran-1" ;;
+	                8) BAND="utran-8" ;;
+			9) BAND="utran-9" ;;
+	                *) BAND="" ;;
+	        esac
+	        BAND3G="$BAND|$BAND3G"
+	done
+}
+
+# Select 4G bands SimCom and Quectel modems
+set_4g(){
+	GET_BAND="$GET_LTE"
+	get_bands
+	for g in $GET_BAND; do
+	        case $g in
+			1) BAND="eutran-1" ;;
+		        3) BAND="eutran-3" ;;
+			5) BAND="eutran-5" ;;
+		        7) BAND="eutran-7" ;;
+			8) BAND="eutran-8" ;;
+			20) BAND="eutran-20" ;;
+			38) BAND="eutran-38" ;;
+			40) BAND="eutran-40" ;;
+			41) BAND="eutran-41" ;;
+		        *) BAND="" ;;
+	        esac
+	        BAND4G="$BAND|$BAND4G"
+	done
+}
+
+set_2g
+set_3g
+set_4g
+
+BAND=$(echo ${BAND2G}${BAND3G}${BAND4G} | sed 's/.$//')
+SLOT=$(/usr/bin/mmcli -L | awk '{print $1}' | awk -F [\/] '{print $6}')
+/usr/bin/mmcli -m $SLOT --set-current-bands="$BAND"

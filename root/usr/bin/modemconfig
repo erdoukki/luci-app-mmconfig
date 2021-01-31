@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# get cellular wwan iface name
+
+WWIFACE=$(uci show | awk -F [=] '/modemmanager/{print $1}' | awk -F [\.] '{print $2}')
+
+
+sleep 10 && \
+	/usr/share/modeminfo/scripts/modemconfig && \
+	sleep 1 && ifdown $WWIFACE && \
+	sleep 1 && ifup $WWIFACE &
