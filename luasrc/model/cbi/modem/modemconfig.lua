@@ -27,6 +27,7 @@ lte = s:option(DynamicList, "lte_band", translate("4G"),
 translate("Maybe must reconnect cellular interface."))
 lte:value("1", "LTE B1 FDD")
 lte:value("3", "LTE B3 FDD")
+lte:value("5", "LTE B5 FDD")
 lte:value("7", "LTE B7 FDD")
 lte:value("8", "LTE B8 FDD")
 lte:value("20", "LTE B20 FDD")
