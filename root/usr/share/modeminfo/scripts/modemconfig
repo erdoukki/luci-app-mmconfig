@@ -1,14 +1,16 @@
 #!/bin/sh
 
-
+NETMODE=$(uci -q get modemconfig.@modem[0].mode)
 GET_GSM=$(uci -q get modemconfig.@modem[0].gsm_band)
 GET_3G=$(uci -q get modemconfig.@modem[0].3g_band)
-GET_LTE=$(uci -q get modemconfig.@modem[0].lte_band)
+GET_LTE_FDD=$(uci -q get modemconfig.@modem[0].lte_band_fdd)
+GET_LTE_TDD=$(uci -q get modemconfig.@modem[0].lte_band_tdd)
 SLOT=$(/usr/bin/mmcli -L | awk '{print $1}' | awk -F [\/] '{print $6}')
 
 BAND2G=""
 BAND3G=""
 BAND4G=""
+
 # Control empty bands
 get_bands(){
 	if [ "$GET_BAND" ]; then
@@ -17,6 +19,52 @@ get_bands(){
                 return
         fi
 
+}
+
+# Network Mode prefs
+set_mode(){
+	case $NETMODE in
+		2g) 
+			NMODE=2g
+			PREFMODE=none
+		;;
+		3g)
+			NMODE=3g
+			PREFMODE=none
+		;;
+		4g)
+			NMODE=4g
+			PREFMODE=none
+		;;
+		3gp2g)
+			NMODE="2g|3g"
+			PREFMODE=2g
+		;;
+		p3g2g)
+			NMODE="2g|3g"
+			PREFMODE=3g
+		;;
+		p4g3g2g)
+			NMODE="2g|3g|4g"
+			PREFMODE="4g"
+		;;
+		4gp3g2g)
+			NMODE="2g|3g|4g"
+			PREFMODE=3g
+		;;
+		4g3gp2g)
+			NMODE="2g|3g|4g"
+			PREFMODE=2g
+		;;
+		p4g3g)
+			NMODE="4g|3g"
+			PREFMODE="4g"
+		;;
+		4gp3g)
+			NMODE="4g|3g"
+			PREFMODE="3g"
+		;;
+	esac
 }
 
 # Select 2G bands
@@ -48,9 +96,9 @@ set_3g(){
 	done
 }
 
-# Select 4G bands
-set_4g(){
-	GET_BAND="$GET_LTE"
+# Select 4G FDD bands
+set_4g_fdd(){
+	GET_BAND="$GET_LTE_FDD"
 	get_bands
 	for g in $GET_BAND; do
 	        case $g in
@@ -60,12 +108,22 @@ set_4g(){
 		        7) BAND="eutran-7" ;;
 			8) BAND="eutran-8" ;;
 			20) BAND="eutran-20" ;;
+		esac
+		BAND4GFDD="$BAND|$BAND4GFDD"
+	done
+}
+
+# Select 4G TDD bands
+set_4g_tdd(){
+	GET_BAND="$GET_LTE_TDD"
+	get_bands
+	for g in $GET_BAND; do
+		case $g in
 			38) BAND="eutran-38" ;;
 			40) BAND="eutran-40" ;;
 			41) BAND="eutran-41" ;;
-		        *) BAND="" ;;
 	        esac
-	        BAND4G="$BAND|$BAND4G"
+	        BAND4GTDD="$BAND|$BAND4GTDD"
 	done
 }
 # Reset to defautls bands
@@ -80,13 +138,34 @@ reset_to_defaults(){
 
 set_2g
 set_3g
-set_4g
+set_4g_fdd
+set_4g_tdd
 
+if [ $BAND4GFDD ]; then
+	BAND4G=$BAND4GFDD
+fi
+if [ $BAND4GTDD ]; then
+	BAND4G=$BAND4GTDD
+fi
+if [ $BAND4GTDD ] && [ $BAND4GFDD ]; then
+        BAND4G=${BAND4GTDD}${BAND4GFDD}
+fi
+	
 BAND=$(echo ${BAND2G}${BAND3G}${BAND4G} | sed 's/.$//')
+
+echo $BAND4GFDD
+echo $BAND4GTDD
 
 if [ "$BAND" ]; then
 	/usr/bin/mmcli -m $SLOT --set-current-bands="$BAND"
 else
 	reset_to_defaults
 	/usr/bin/mmcli -m $SLOT --set-current-bands="$DEFBAND"
+fi
+
+if [ "$NETMODE" ]; then
+	set_mode
+	/usr/bin/mmcli -m $SLOT --set-allowed-modes="$NMODE" --set-preferred-mode=$PREFMODE
+else
+	/usr/bin/mmcli -m $SLOT --set-allowed-modes="4g|3g" --set-preferred-mode=4g
 fi

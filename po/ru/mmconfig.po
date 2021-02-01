@@ -13,20 +13,27 @@ msgstr "Модем"
 msgid "Modem config"
 msgstr "Конфигурация модема"
 
-#: applications/luci-app-mmconfig/luasrc/model/cbi/modem/modemconfig.lua:9
+#: applications/luci-app-mmconfig/luasrc/model/cbi/modem/modemconfig.lua:12
 msgid "Configure modem bands"
 msgstr "Конфигурация диапазонов модема"
 
-#: applications/luci-app-mmconfig/luasrc/model/cbi/modem/modemconfig.lua:10
+#: applications/luci-app-mmconfig/luasrc/model/cbi/modem/modemconfig.lua:13
 msgid "Configuration 2G/3G/4G modem frequency bands."
 msgstr "Конфигурация 2G/3G/4G частот модема."
 
-#: applications/luci-app-mmconfig/luasrc/model/cbi/modem/modemconfig.lua:12
+#: applications/luci-app-mmconfig/luasrc/model/cbi/modem/modemconfig.lua:13
 msgid "Choose bands cellular modem"
-msgstr "Выберите частоты сотовой сети"
+msgstr "Выбор частот сотовой сети"
 
-#: applications/luci-app-mmconfig/luasrc/model/cbi/modem/modemconfig.lua:27
-msgid "Maybe must reconnect cellular interface. If no select all bands, use default band modem config."
-msgstr "Возможно потребуется перезапустить сотовое соединение. Если не выбрано ни одного диапазона, используется конфигурация модема по умолчанию."
+#: applications/luci-app-mmconfig/luasrc/model/cbi/modem/modemconfig.lua:19
+msgid "Net Mode"
+msgstr "Режим сети"
 
+#: applications/luci-app-mmconfig/luasrc/model/cbi/modem/modemconfig.lua:19
+msgid "Preffered Network mode select."
+msgstr "Выбор предпочтительного режима сети."
+
+#: applications/luci-app-mmconfig/luasrc/model/cbi/modem/modemconfig.lua:72
+msgid "Maybe must reconnect cellular interface. <br /> If deselect all bands, then used default band modem config."
+msgstr "Возможно потребуется перезапустить сотовое соединение. <br /> Если не выбрано ни одного диапазона, используется конфигурация модема по умолчанию."
 
