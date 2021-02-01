@@ -59,7 +59,7 @@ if mode3g == 0 then
 end
 
 if mode4g == 0 then
-	ltefdd = s:option(StaticList, "lte_band_fdd", translate("4G TDD"))
+	ltefdd = s:option(StaticList, "lte_band_fdd", translate("4G FDD"))
 	ltefdd:value("1", "B1")
 	ltefdd:value("3", "B3")
 	ltefdd:value("5", "B5")
@@ -68,7 +68,7 @@ if mode4g == 0 then
 	ltefdd:value("20", "B20")
 	s.rmempty = true
 
-	ltetdd = s:option(StaticList, "lte_band_tdd", translate("4G FDD"),
+	ltetdd = s:option(StaticList, "lte_band_tdd", translate("4G TDD"),
 	translate("Maybe must reconnect cellular interface. <br /> If deselect all bands, then used default band modem config."))
 	ltetdd:value("38", "B38")
 	ltetdd:value("40", "B40")
