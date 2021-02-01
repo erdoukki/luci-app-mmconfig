@@ -153,9 +153,7 @@ fi
 	
 BAND=$(echo ${BAND2G}${BAND3G}${BAND4G} | sed 's/.$//')
 
-echo $BAND4GFDD
-echo $BAND4GTDD
-
+# Select band
 if [ "$BAND" ]; then
 	/usr/bin/mmcli -m $SLOT --set-current-bands="$BAND"
 else
@@ -163,6 +161,7 @@ else
 	/usr/bin/mmcli -m $SLOT --set-current-bands="$DEFBAND"
 fi
 
+# Select netmode
 if [ "$NETMODE" ]; then
 	set_mode
 	/usr/bin/mmcli -m $SLOT --set-allowed-modes="$NMODE" --set-preferred-mode=$PREFMODE
