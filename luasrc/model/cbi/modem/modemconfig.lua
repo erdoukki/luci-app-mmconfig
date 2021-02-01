@@ -17,7 +17,7 @@ s.anonymous = true
 
 
 netmode = s:option(ListValue, "mode", translate("Net Mode"),
-translate("Preffered Network mode select"))
+translate("Preffered Network mode select."))
 if mode4g == 0 then
 	netmode:value("4g", "4G only")
 end
