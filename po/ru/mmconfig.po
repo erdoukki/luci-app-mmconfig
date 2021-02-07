@@ -10,8 +10,8 @@ msgid "Modem"
 msgstr "Модем"
 
 #: applications/luci-app-mmconfig/luasrc/controller/modemconfig.lua:9
-msgid "Modem config"
-msgstr "Конфигурация модема"
+msgid "Band config"
+msgstr "Настройка диапазонов"
 
 #: applications/luci-app-mmconfig/luasrc/model/cbi/modem/modemconfig.lua:12
 msgid "Configure modem bands"
