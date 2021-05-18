@@ -2,7 +2,7 @@
 
 # get cellular wwan iface name
 
-WWIFACE=$(uci show | awk -F [=] '/modemmanager/{print $1}' | awk -F [\.] '{print $2}')
+WWIFACE=$(uci -q show network | awk -F [=.] '/modemmanager/{print $2}')
 
 
 sleep 10 && \
