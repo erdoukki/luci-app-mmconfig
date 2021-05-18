@@ -5,7 +5,7 @@ GET_GSM=$(uci -q get modemconfig.@modem[0].gsm_band)
 GET_3G=$(uci -q get modemconfig.@modem[0].3g_band)
 GET_LTE_FDD=$(uci -q get modemconfig.@modem[0].lte_band_fdd)
 GET_LTE_TDD=$(uci -q get modemconfig.@modem[0].lte_band_tdd)
-SLOT=$(/usr/bin/mmcli -L | awk '{print $1}' | awk -F [\/] '{print $6}')
+SLOT=$(/usr/bin/mmcli -L | awk '{print $1}' | awk -F [\/] '{print $NF}')
 
 BAND2G=""
 BAND3G=""
